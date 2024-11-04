@@ -1,4 +1,6 @@
 from .interface import Platform, PlatformEnum, UnspecifiedPlatform
+from vllm.logger import init_logger
+logger = init_logger(__name__)
 
 current_platform: Platform
 
@@ -47,7 +49,9 @@ is_npu = False
 try:
     import torch_npu  # noqa: F401
     is_npu = True
-except Exception:
+    logger.info("import npu success")
+except Exception as e:
+    logger.info(f"import npu error, {e}")
     pass
 
 is_xpu = False
